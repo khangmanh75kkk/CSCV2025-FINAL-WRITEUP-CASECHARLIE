@@ -60,3 +60,5 @@ Hi everyone, last Saturday I have solved this forensics challenge in the final r
 
 **Question 5** What command did the suspect use to overwrite the current user's .bash_history file to cover their tracks?
 
+- 
+
