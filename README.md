@@ -97,8 +97,7 @@ shred: a command that securely overwrites a file multiple times to make its cont
 <img width="1203" height="58" alt="image_2025-11-18_14-14-53" src="https://github.com/user-attachments/assets/8629c3eb-b213-4185-be38-62bb8c41dd89" />
 
 - Then I use 'testing' to pull the image
-- 
-```docker image save -o solve.tar registry.gitlab.com/somegroup5803945/jkfhskdf2314:testing`
+- `docker image save -o solve.tar registry.gitlab.com/somegroup5803945/jkfhskdf2314:testing`
 
 <img width="760" height="301" alt="image" src="https://github.com/user-attachments/assets/80b84d38-d903-47ca-9405-af2f3fd9edda" />
 
@@ -110,7 +109,8 @@ tar -xf solve.tar -C extracted
 cd extracted
 for d in */; do
     [ -f "$d/layer.tar" ] && tar -xf "$d/layer.tar" -C ../rootfs
-done```
+done
+```
 
 - Following this, I have a file name "roofts" so I use Grep to find an email 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ced4457f-82a0-4ebb-8802-886047ec35cb" />
@@ -118,9 +118,9 @@ done```
 -> finally I find the suspect email name: phuchungh96@gmail.com
 -> Answer for the last question is: phuchungh96@gmail.com
 
-*Get the flag*
-
+**Get the flag**
 After answer 6 questions, we have this
+
 <img width="700" height="558" alt="image" src="https://github.com/user-attachments/assets/a7386d5d-50ae-4802-be0c-635f656068c7" />
 
 So that the final flag is: **CSCV2025{docKER_St0r35_0uR_cR3deNtI41S-UneNCrYPTed-ln_lt5-cOnfig_file_lmao_xd_Ow0}**
