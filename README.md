@@ -56,9 +56,73 @@ Hi everyone, last Saturday I have solved this forensics challenge in the final r
 
 - The author ask us when the time the conversation ended, read the log and scroll to the end, it is easy to see that the time is 04:36
 - The chat is opened Fri Nov 07 12:56:16 2025 (On the top of the log)
-  -> `the answer is: 2025-11-08 04:36`
+  -> the answer is: `2025-11-08 04:36`
 
 **Question 5** What command did the suspect use to overwrite the current user's .bash_history file to cover their tracks?
 
+- I use a super trick in this question, that is STRINGS & GREP
+- Use this command in CMD: `strings -n 5 E:\khang\cscv2025_final\forensics-Case_Charlie-f0f1f0e74a82270c9374bf0a9facd097\evidences\evidences.vmdk | findstr /i .bash_history`
+- Because this file is so large, so that using strings is hard work, but **Practice makes perfect**, after nearly 5 minutes waiting, I see a suspect command
+  `sudo shred -vfz /home/ubuntu/.bash_history`
+ <img width="1699" height="406" alt="image" src="https://github.com/user-attachments/assets/093d13b8-adcb-4d40-af51-d46a641bc040" />
+
+shred: a command that securely overwrites a file multiple times to make its contents extremely difficult or impossible to recover, even with forensic tools.
+
+-v (verbose): Shows detailed output about what shred is doing (progress messages).
+
+-f (force): Forces overwriting the file even if the file has certain protection, such as read-only permissions or immutable attributes.
+
+-z (zero pass): After overwriting with random data, shred performs one final overwrite with zeros to hide the fact that the file was shredded.
+
+
+-> so that the answer for this question is: `sudo shred -vfz /home/ubuntu/.bash_history`
+
+**Question 6** The suspect accidentally left behind an email address. What is the email address? Format: name@domain. Example: this_Is_an_3xample_email1213@proton.me 
+
+- This question request us to find an email address of the suspect, it isn't easy to find, I look for this by scroll all the file in the disk but it is nothing there. Then the author publish a hint to discover
+<img width="538" height="222" alt="image" src="https://github.com/user-attachments/assets/91f45726-8e97-46e0-811a-83baba43ed49" />
+
+- After reading a hint, I summary it with the log from Q2 to Q4, I have a important information
+<img width="1919" height="913" alt="image" src="https://github.com/user-attachments/assets/b39734b6-47d0-4506-8ecd-f14c661f7a61" />
+-> some image had been pulled in a file with old cred (I need to find it after) and use testing to pull it, this information remind me to Docker, so that I scroll to Docker file to dig for more information
+- In .docker/config.json, I can find a registry url and a base64 strings
+<img width="1918" height="911" alt="image" src="https://github.com/user-attachments/assets/0be3cc3b-86d5-4e2c-90f3-652a105e5cb1" />
+- Decode this strings in Cyberchef and I have this asjdkhufh832:glpat-xwghQbDTsJbs1B2MubX_zG86MQp1OmlxOHVzCw.01.120yvtp2f
+  -> user: asjdkhufh832
+     PAT: glpat-xwghQbDTsJbs1B2MubX_zG86MQp1OmlxOHVzCw.01.120yvtp2f
+     Credentials: registry.gitlab.com
+- Having 3 keys to solve this question, I use this information to login in Docker and fortunately it's successful
+`echo "glpat-xwghQbDTsJbs1B2MubX_zG86MQp1OmlxOHVzCw.01.120yvtp2f" | docker login registry.gitlab.com -u asjdkhufh832 --password-stdin`
+
+<img width="1203" height="58" alt="image_2025-11-18_14-14-53" src="https://github.com/user-attachments/assets/8629c3eb-b213-4185-be38-62bb8c41dd89" />
+
+- Then I use 'testing' to pull the image
 - 
+```docker image save -o solve.tar registry.gitlab.com/somegroup5803945/jkfhskdf2314:testing`
+
+<img width="760" height="301" alt="image" src="https://github.com/user-attachments/assets/80b84d38-d903-47ca-9405-af2f3fd9edda" />
+
+- After that, I got a file solve.tar so that I use a Command to extract layer of this file 
+
+```mkdir extracted rootfs
+tar -xf solve.tar -C extracted
+
+cd extracted
+for d in */; do
+    [ -f "$d/layer.tar" ] && tar -xf "$d/layer.tar" -C ../rootfs
+done```
+
+- Following this, I have a file name "roofts" so I use Grep to find an email 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ced4457f-82a0-4ebb-8802-886047ec35cb" />
+
+-> finally I find the suspect email name: phuchungh96@gmail.com
+-> Answer for the last question is: phuchungh96@gmail.com
+
+*Get the flag*
+
+After answer 6 questions, we have this
+<img width="700" height="558" alt="image" src="https://github.com/user-attachments/assets/a7386d5d-50ae-4802-be0c-635f656068c7" />
+
+So that the final flag is: **CSCV2025{docKER_St0r35_0uR_cR3deNtI41S-UneNCrYPTed-ln_lt5-cOnfig_file_lmao_xd_Ow0}**
+
 
