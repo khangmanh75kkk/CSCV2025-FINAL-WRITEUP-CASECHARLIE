@@ -41,10 +41,22 @@ Hi everyone, last Saturday I have solved this forensics challenge in the final r
 **Question 2:** The suspect used a chat application to communicate. What is the name of this application? Format: chatapp. Example: whatsapp, telegram, Discord
 
 - The author give us a example of chat application, so that I need to file a suspect app contain the communication between suspects
-- After find information for nearly 30 minutes, I finally find a doubt conversation between s3v3n_w0ndEr113 and the0nlymak3r1338
+- After find information for nearly 30 minutes, I finally find a doubt conversation between s3v3n_wOndEr113 and the0nlymak3r1338
 <img width="1895" height="915" alt="image" src="https://github.com/user-attachments/assets/9286141f-f5b1-4c22-b9d9-f5fe8c5344bb" />
 - The first line is: **12:56 -!- Irssi: Starting query in liberachat with the0nlymak3r1338**
 
   -> the suspect app is `Irssi`
 
+**Question 3** Identify the usernames (handles) of the suspect and their contact in the chat application. (Case Sensitive) Format: uS3rNaME13, c0nT4cTn4m3
+
+- This question is easy because I have already found 2 peoples chatting in the logs
+  -> the usernames is: `s3v3n_wOndEr113, the0nlymak3r1338`
+
+**Question 4** What was the last time the suspect sent a message to their contact? (UTC / 24 hours format) Format: YYYY-MM-DD HH:MM  
+
+- The author ask us when the time the conversation ended, read the log and scroll to the end, it is easy to see that the time is 04:36
+- The chat is opened Fri Nov 07 12:56:16 2025 (On the top of the log)
+  -> `the answer is: 2025-11-08 04:36`
+
+**Question 5** What command did the suspect use to overwrite the current user's .bash_history file to cover their tracks?
 
